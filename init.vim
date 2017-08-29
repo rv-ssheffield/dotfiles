@@ -7,7 +7,6 @@ Plug 'Shougo/deoplete.nvim'
 Plug 'zchee/deoplete-go', { 'do': 'make'}
 call plug#end()
 
-
 " Map the leader key to SPACE
 let mapleader="\<SPACE>"
 
