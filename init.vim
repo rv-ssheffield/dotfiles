@@ -5,6 +5,7 @@ Plug 'itchyny/lightline.vim'
 Plug 'vim-airline/vim-airline'
 Plug 'Shougo/deoplete.nvim'
 Plug 'zchee/deoplete-go', { 'do': 'make'}
+Plug 'w0rp/ale'
 call plug#end()
 
 " Map the leader key to SPACE
@@ -19,30 +20,12 @@ let g:python3_host_skip_check = 1
 let g:deoplete#enable_at_startup = 1
 let g:deoplete#sources#go#gocode_binary = '~/gocode/bin'
 
-" autocmd FileType go nmap <leader>r  <Plug>(go-run)
-" run :GoBuild or :GoTestCompile based on the go file
-" function! s:build_go_files()
-"  let l:file = expand('%')
-" if l:file =~# '^\f\+_test\.go$'
-"    call go#test#Test(0, 1)
-"  elseif l:file =~# '^\f\+\.go$'
-"    call go#cmd#Build(0)
-"  endif
-"endfunction
-
-" autocmd FileType go nmap <leader>b :<C-u>call <SID>build_go_files()<CR>
-
 " leader shortcuts
 " list buffer files
 noremap <silent> <leader>l :ls<CR>
 
-" <Ctrl-l> redraws the screen and removes any search highlighting.
+" <Ctrl-opt-l> redraws the screen and removes any search highlighting.
 nnoremap <silent> <C-l> :nohl<CR><C-l>
-
-"Use 24-bit (true-color) mode in Vim/Neovim 
-if (has("termguicolors"))
-  set termguicolors
-endif
 
 " colorscheme
 let g:lightline = {
@@ -54,6 +37,8 @@ colorscheme onedark
 set autowrite
 set number
 set splitbelow
+"Use 24-bit (true-color) mode in Vim/Neovim 
+set termguicolors
 set splitright
 set noshowmode
 
@@ -69,11 +54,24 @@ let g:go_highlight_types = 1
 let g:go_fmt_command = "goimports"
 
 " Error and warning signs.
-" let g:ale_sign_error = '⤫'
-" let g:ale_sign_warning = '⚠'
+let g:ale_sign_error = '⤫'
+let g:ale_sign_warning = '⚠'
 " Enable integration with airline.
-" let g:airline#extensions#ale#enabled = 1
+let g:airline#extensions#ale#enabled = 1
 
-" let g:go_auto_type_info = 1
+" shows type information
+let g:go_auto_type_info = 1
 
 " let g:go_addtags_transform = "snakecase"
+
+" autocmd FileType go nmap <leader>r  <Plug>(go-run)
+" run :GoBuild or :GoTestCompile based on the go file
+" function! s:build_go_files()
+"  let l:file = expand('%')
+" if l:file =~# '^\f\+_test\.go$'
+"    call go#test#Test(0, 1)
+"  elseif l:file =~# '^\f\+\.go$'
+"    call go#cmd#Build(0)
+"  endif
+"endfunction
+
