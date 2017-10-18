@@ -31,12 +31,12 @@ Plug 'nathanaelkane/vim-indent-guides' " Indent lines
 Plug 'fatih/vim-go', { 'do': ':GoInstallBinaries' }
 Plug 'pangloss/vim-javascript'
 Plug 'posva/vim-vue'
+Plug 'hashivim/vim-terraform'
 call plug#end()
 
 " Map the leader key to SPACE
 let mapleader="\<SPACE>"
 
-" colorscheme
 let g:lightline = {
    \ 'colorscheme': 'onedark',
    \ 'active': {
@@ -138,6 +138,9 @@ noremap <leader>yp <ESC>gg<bar><S-v><bar>G<bar>"*y
 noremap <leader>cb :b#<bar>bd#<bar>bn<bar>b#<CR>
 " Play macro from q
 noremap <leader>q @q
+" Terminal shortcuts
+noremap <leader>t :terminal<CR>
+tnoremap <Esc> <C-\><C-n>
 " syntax json
 noremap <leader>json :set syntax=json<CR>:%!python -m json.tool<CR>
 " syntax xml
@@ -187,3 +190,9 @@ let g:go_auto_type_info = 1
 " Close NerDTREE and quit if it is the last thing open when :q
 autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isTabTree()) | q | endif
 
+" Save folding
+" augroup remember_folds
+"   autocmd!
+"   autocmd BufWinLeave *.* mkview
+"   autocmd BufWinEnter *.* silent! loadview
+" augroup END
