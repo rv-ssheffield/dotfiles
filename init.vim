@@ -23,14 +23,18 @@ Plug 'w0rp/ale'
 " Other stuff
 Plug 'scrooloose/nerdtree' " File explorer 
 Plug 'tpope/vim-fugitive' " Git wrapper
-Plug 'ctrlpvim/ctrlp.vim'
+Plug 'airblade/vim-gitgutter' " Git diffs in gutter
+" Plug 'ctrlpvim/ctrlp.vim'
+Plug '/usr/local/opt/fzf' | Plug 'junegunn/fzf.vim'
 Plug 'euclio/vim-markdown-composer', { 'do': function('BuildComposer') }
 Plug 'jiangmiao/auto-pairs' " Helps with { } stuff
 Plug 'nathanaelkane/vim-indent-guides' " Indent lines
+Plug 'easymotion/vim-easymotion' " Makes motion commands better 
 " Language specific
 Plug 'fatih/vim-go', { 'do': ':GoInstallBinaries' }
-Plug 'pangloss/vim-javascript'
-Plug 'posva/vim-vue'
+" Plug 'pangloss/vim-javascript'
+" Plug 'posva/vim-vue'
+Plug 'sheerun/vim-polyglot'
 Plug 'hashivim/vim-terraform'
 call plug#end()
 
@@ -92,10 +96,13 @@ let g:deoplete#enable_at_startup = 1
 let g:deoplete#sources#go#gocode_binary = '/Users/zjohnson/gocode/bin/gocode'
 
 " Ctrl-P settings
-let g:ctrlp_map = '<c-p>'
-let g:ctrlp_cmd = 'CtrlP'
-let g:ctrlp_working_path_mode = 'ra'
-let g:ctrlp_custom_ignore = 'node_modules\|DS_Store\|vendor\|git'
+" let g:ctrlp_map = '<c-p>'
+" let g:ctrlp_cmd = 'CtrlP'
+" let g:ctrlp_working_path_mode = 'ra'
+" let g:ctrlp_custom_ignore = 'node_modules\|DS_Store\|vendor\|git'
+
+nmap ; :Buffers<CR>
+nmap <Leader>t :Files<CR>
 
 " :ALEFix will try and fix JS code with ESLint.
 let g:ale_fixers = {
@@ -107,12 +114,13 @@ let g:ale_sign_warning = '⚠'
 let g:ale_lint_on_save = 1
 let g:ale_fix_on_save = 1
 
+let g:ale_set_loclist = 0
+let g:ale_set_quickfix = 1
+
 let g:ale_lint_on_text_changed = 'normal'
 let g:ale_sign_column_always = 1
 
 let NERDTreeWinPos='right'
-
-let g:indent_guides_enable_on_vim_startup = 1
 
 " leader shortcuts
 " Source config
@@ -138,13 +146,13 @@ noremap <leader>yp <ESC>gg<bar><S-v><bar>G<bar>"*y
 noremap <leader>cb :b#<bar>bd#<bar>bn<bar>b#<CR>
 " Play macro from q
 noremap <leader>q @q
-" Terminal shortcuts
-noremap <leader>t :terminal<CR>
-tnoremap <Esc> <C-\><C-n>
 " syntax json
 noremap <leader>json :set syntax=json<CR>:%!python -m json.tool<CR>
 " syntax xml
 noremap <leader>xml :set syntax=xml<CR>:%!xmllint --format -<CR>
+
+" search for a character
+nmap s <Plug>(easymotion-overwin-f)
 
 " next and previous buffer
 noremap <Tab> :bnext<CR>
@@ -189,6 +197,9 @@ let g:go_auto_type_info = 1
 
 " Close NerDTREE and quit if it is the last thing open when :q
 autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isTabTree()) | q | endif
+
+let g:indent_guides_enable_on_vim_startup = 1
+let g:indent_guides_guide_size = 1
 
 " Save folding
 " augroup remember_folds
