@@ -13,6 +13,7 @@ call plug#begin('~/.config/nvim/plugged')
 " Theme
 Plug 'joshdick/onedark.vim'
 Plug 'itchyny/lightline.vim'
+Plug 'ap/vim-buftabline'
 " Autocompletion
 Plug 'Shougo/deoplete.nvim'
 Plug 'zchee/deoplete-go', { 'do': 'make'}
@@ -29,10 +30,10 @@ Plug 'nathanaelkane/vim-indent-guides' " Indent lines
 Plug 'easymotion/vim-easymotion' " Makes motion commands better 
 " Language specific
 Plug 'fatih/vim-go', { 'do': ':GoInstallBinaries' }
-" Plug 'pangloss/vim-javascript'
-" Plug 'posva/vim-vue'
 Plug 'sheerun/vim-polyglot'
 Plug 'hashivim/vim-terraform'
+" Plug 'pangloss/vim-javascript'
+" Plug 'posva/vim-vue'
 call plug#end()
 
 " Map the leader key to SPACE
@@ -62,6 +63,8 @@ set noshowmode
 set noruler
 set noshowcmd
 
+set autowrite
+
 " Shows line numbers
 set number
 set relativenumber
@@ -86,7 +89,7 @@ set smartcase
 set ignorecase
 
 " Show type info after 400s (default 800 ms)
-set updatetime=400
+set updatetime=250
 
 " Path to python interpreter for neovim
 let g:python3_host_prog = '/usr/local/bin/python3'
@@ -102,25 +105,6 @@ nmap ; :Buffers<CR>
 nmap <leader>t :Files<CR>
 nmap <leader>fl :BLines<CR>
 nmap <leader>fal :Lines<CR>
-
-" :ALEFix will try and fix JS code with ESLint.
-let g:ale_fixers = {
-\   'javascript': ['eslint']
-\}
-
-let g:ale_linters = {'go': ['gometalinter', 'gofmt']}
-
-" Error and warning signs.
-let g:ale_sign_error = '⍭'
-let g:ale_sign_warning = '⌽'
-let g:ale_lint_on_save = 1
-let g:ale_fix_on_save = 1
-
-let g:ale_set_loclist = 0
-let g:ale_set_quickfix = 1
-
-let g:ale_lint_on_text_changed = 'normal'
-let g:ale_sign_column_always = 1
 
 let NERDTreeWinPos='right'
 
@@ -172,6 +156,7 @@ au FileType go noremap <leader>gr :GoRun<CR>
 au FileType go noremap <leader>gn :GoRename<CR>
 au FileType go noremap <leader>gef :GoReferrers<CR>
 au FileType go noremap <leader>gt :GoTest<CR>
+au FileType go noremap <leader>gl :GoLint<CR>
 
 let g:go_highlight_build_constraints = 1
 let g:go_highlight_extra_types = 1
@@ -181,17 +166,14 @@ let g:go_highlight_methods = 1
 let g:go_highlight_operators = 1
 let g:go_highlight_structs = 1
 let g:go_highlight_types = 1
-
 let g:go_fmt_command = "goimports"
 " these might be causing issues with ale
 " let g:go_metalinter_enabled = ['vet', 'golint', 'errcheck']
 " let g:go_metalinter_autosave = 1
 " let g:go_metalinter_deadline = "5s"
-
 " shows type information
 let g:go_auto_type_info = 1
-
-" let g:go_addtags_transform = "snakecase"
+let g:go_addtags_transform = "snakecase"
 
 " Close NerDTREE and quit if it is the last thing open when :q
 autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isTabTree()) | q | endif
@@ -199,6 +181,27 @@ autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isT
 " indentation
 let g:indent_guides_enable_on_vim_startup = 1
 let g:indent_guides_guide_size = 1
+
+" :ALEFix will try and fix JS code with ESLint.
+let g:ale_fixers = {
+\   'javascript': ['eslint']
+\}
+
+" golint not working ugh
+let g:ale_linters = { 'go': ['go build', 'golint', 'gofmt', 'go vet'] }
+" metalinter not working 
+" let g:ale_linters = {'go': ['gometalinter', 'go fmt']}
+" let g:ale_go_gometalinter_options = '`--fast`'
+" let g:ale_go_gometalinter_executable = '~/gocode/bin/gometalinter.v1'
+
+" Error and warning signs.
+let g:ale_sign_error = '⍭'"
+let g:ale_sign_warning = '⌽'
+let g:ale_lint_on_save = 1
+let g:ale_fix_on_save = 1
+
+let g:ale_lint_on_text_changed = 'normal'
+let g:ale_sign_column_always = 1
 
 " Save folding
 " augroup remember_folds
