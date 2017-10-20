@@ -13,8 +13,6 @@ call plug#begin('~/.config/nvim/plugged')
 " Theme
 Plug 'joshdick/onedark.vim'
 Plug 'itchyny/lightline.vim'
-Plug 'vim-airline/vim-airline'
-"Plug 'vim-airline/vim-airline-themes'
 " Autocompletion
 Plug 'Shougo/deoplete.nvim'
 Plug 'zchee/deoplete-go', { 'do': 'make'}
@@ -24,7 +22,6 @@ Plug 'w0rp/ale'
 Plug 'scrooloose/nerdtree' " File explorer 
 Plug 'tpope/vim-fugitive' " Git wrapper
 Plug 'airblade/vim-gitgutter' " Git diffs in gutter
-" Plug 'ctrlpvim/ctrlp.vim'
 Plug '/usr/local/opt/fzf' | Plug 'junegunn/fzf.vim'
 Plug 'euclio/vim-markdown-composer', { 'do': function('BuildComposer') }
 Plug 'jiangmiao/auto-pairs' " Helps with { } stuff
@@ -45,21 +42,26 @@ let g:lightline = {
    \ 'colorscheme': 'onedark',
    \ 'active': {
    \   'left': [ [ 'mode', 'paste' ],
-   \             [ 'gitbranch', 'readonly', 'filename', 'modified' ] ]
+   \             [ 'gitbranch', 'readonly', 'filename', 'modified' ] ],
+	 \   'right': [ [ 'filetype' ] ]
    \ },
+   \ 'inactive': {
+	 \    'left': [['filename']],
+	 \    'right': [['filetype']] 
+   \  },
    \ 'component_function': {
    \   'gitbranch': 'fugitive#head'
    \ },
    \ }
+let g:lightline.separator = { 'left': '', 'right': '' }
 syntax on
 colorscheme onedark
 
+" hides regular status bar
 set noshowmode
 set noruler
 set noshowcmd
 
-" Auto save
-set autowrite
 " Shows line numbers
 set number
 set relativenumber
@@ -95,22 +97,22 @@ let g:python3_host_skip_check = 1
 let g:deoplete#enable_at_startup = 1
 let g:deoplete#sources#go#gocode_binary = '/Users/zjohnson/gocode/bin/gocode'
 
-" Ctrl-P settings
-" let g:ctrlp_map = '<c-p>'
-" let g:ctrlp_cmd = 'CtrlP'
-" let g:ctrlp_working_path_mode = 'ra'
-" let g:ctrlp_custom_ignore = 'node_modules\|DS_Store\|vendor\|git'
-
+" fzf 
 nmap ; :Buffers<CR>
-nmap <Leader>t :Files<CR>
+nmap <leader>t :Files<CR>
+nmap <leader>fl :BLines<CR>
+nmap <leader>fal :Lines<CR>
 
 " :ALEFix will try and fix JS code with ESLint.
 let g:ale_fixers = {
 \   'javascript': ['eslint']
 \}
+
+let g:ale_linters = {'go': ['gometalinter', 'gofmt']}
+
 " Error and warning signs.
-let g:ale_sign_error = '⤫'
-let g:ale_sign_warning = '⚠'
+let g:ale_sign_error = '⍭'
+let g:ale_sign_warning = '⌽'
 let g:ale_lint_on_save = 1
 let g:ale_fix_on_save = 1
 
@@ -159,6 +161,8 @@ noremap <Tab> :bnext<CR>
 noremap <S-Tab> :bprevious<CR>
 " <Ctrl-opt-l> redraws the screen and removes any search highlighting.
 nnoremap <C-l> :nohl<CR><C-l>
+" Close bottom window (quickfix window usually)
+nnoremap <leader>cq <C-w><C-j>:close<CR>
 
 inoremap jk <ESC>
 
@@ -179,16 +183,10 @@ let g:go_highlight_structs = 1
 let g:go_highlight_types = 1
 
 let g:go_fmt_command = "goimports"
-let g:go_metalinter_enabled = ['vet', 'golint', 'errcheck']
-let g:go_metalinter_autosave = 1
-let g:go_metalinter_deadline = "5s"
-
-" Enable integration with airline.
-let g:airline#extensions#ale#enabled = 1
-
-" Airline
-let g:airline#extensions#tabline#enabled = 1
-"let g:airline_solarized_bg='dark'
+" these might be causing issues with ale
+" let g:go_metalinter_enabled = ['vet', 'golint', 'errcheck']
+" let g:go_metalinter_autosave = 1
+" let g:go_metalinter_deadline = "5s"
 
 " shows type information
 let g:go_auto_type_info = 1
@@ -198,6 +196,7 @@ let g:go_auto_type_info = 1
 " Close NerDTREE and quit if it is the last thing open when :q
 autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isTabTree()) | q | endif
 
+" indentation
 let g:indent_guides_enable_on_vim_startup = 1
 let g:indent_guides_guide_size = 1
 
