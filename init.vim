@@ -1,3 +1,5 @@
+set rtp+=~/gocode/src/github.com/golang/lint/misc/vim
+
 " for markdown-composer plugin
 function! BuildComposer(info)
   if a:info.status != 'unchanged' || a:info.force
@@ -12,6 +14,8 @@ endfunction
 call plug#begin('~/.config/nvim/plugged')
 " Theme
 Plug 'joshdick/onedark.vim'
+" high contrast colorscheme
+Plug 'agude/vim-eldar'
 Plug 'itchyny/lightline.vim'
 Plug 'ap/vim-buftabline'
 " Autocompletion
@@ -57,6 +61,8 @@ let g:lightline = {
 let g:lightline.separator = { 'left': '', 'right': '' }
 syntax on
 colorscheme onedark
+" high contrast colorscheme
+" colorscheme eldar 
 
 " hides regular status bar
 set noshowmode
@@ -99,6 +105,8 @@ let g:python3_host_skip_check = 1
 " Enable deoplete 
 let g:deoplete#enable_at_startup = 1
 let g:deoplete#sources#go#gocode_binary = '/Users/zjohnson/gocode/bin/gocode'
+" don't open the preview window
+set completeopt-=preview
 
 " fzf 
 nmap ; :Buffers<CR>
