@@ -16,7 +16,9 @@ call plug#begin('~/.config/nvim/plugged')
 Plug 'joshdick/onedark.vim'
 " high contrast colorscheme
 Plug 'agude/vim-eldar'
+" regular colorscheme
 Plug 'itchyny/lightline.vim'
+" tabs for buffers
 Plug 'ap/vim-buftabline'
 " Autocompletion
 Plug 'Shougo/deoplete.nvim'
@@ -25,7 +27,7 @@ Plug 'zchee/deoplete-go', { 'do': 'make'}
 Plug 'w0rp/ale'
 " Other stuff
 Plug 'scrooloose/nerdtree' " File explorer 
-Plug 'tpope/vim-fugitive' " Git wrapper
+" Plug 'tpope/vim-fugitive' " Git wrapper
 Plug 'airblade/vim-gitgutter' " Git diffs in gutter
 Plug '/usr/local/opt/fzf' | Plug 'junegunn/fzf.vim'
 Plug 'euclio/vim-markdown-composer', { 'do': function('BuildComposer') }
@@ -152,7 +154,7 @@ nmap s <Plug>(easymotion-overwin-f)
 noremap <Tab> :bnext<CR>
 noremap <S-Tab> :bprevious<CR>
 " <Ctrl-opt-l> redraws the screen and removes any search highlighting.
-nnoremap <C-l> :nohl<CR><C-l>
+nnoremap <leader>ch :nohl<CR>
 " Close bottom window (quickfix window usually)
 nnoremap <leader>cq <C-w><C-j>:close<CR>
 
@@ -195,12 +197,7 @@ let g:ale_fixers = {
 \   'javascript': ['eslint']
 \}
 
-" golint not working ugh
 let g:ale_linters = { 'go': ['go build', 'golint', 'gofmt', 'go vet'] }
-" metalinter not working 
-" let g:ale_linters = {'go': ['gometalinter', 'go fmt']}
-" let g:ale_go_gometalinter_options = '`--fast`'
-" let g:ale_go_gometalinter_executable = '~/gocode/bin/gometalinter.v1'
 
 " Error and warning signs.
 let g:ale_sign_error = '⍭'"
@@ -211,9 +208,34 @@ let g:ale_fix_on_save = 1
 let g:ale_lint_on_text_changed = 'normal'
 let g:ale_sign_column_always = 1
 
+" buftabline settings
+let g:buftabline_numbers = 2
+let g:buftabline_indicators = 1 
+let g:buftabline_separators = 1
+nmap <leader>1 <Plug>BufTabLine.Go(1)
+nmap <leader>2 <Plug>BufTabLine.Go(2)
+nmap <leader>3 <Plug>BufTabLine.Go(3)
+nmap <leader>4 <Plug>BufTabLine.Go(4)
+nmap <leader>5 <Plug>BufTabLine.Go(5)
+nmap <leader>6 <Plug>BufTabLine.Go(6)
+nmap <leader>7 <Plug>BufTabLine.Go(7)
+nmap <leader>8 <Plug>BufTabLine.Go(8)
+nmap <leader>9 <Plug>BufTabLine.Go(9)
+nmap <leader>0 <Plug>BufTabLine.Go(10)
+hi link BufTabLineCurrent PmenuSel
+hi link BufTabLineActive TablineSel
+
 " Save folding
 " augroup remember_folds
 "   autocmd!
 "   autocmd BufWinLeave *.* mkview
 "   autocmd BufWinEnter *.* silent! loadview
 " augroup END
+
+function! CopyMatches(reg)
+  let hits = []
+  %s//\=len(add(hits, submatch(0))) ? submatch(0) : ''/gne
+  let reg = empty(a:reg) ? '+' : a:reg
+  execute 'let @'.reg.' = join(hits, "\n") . "\n"'
+endfunction
+command! -register CopyMatches call CopyMatches(<q-reg>)
