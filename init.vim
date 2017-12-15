@@ -1,4 +1,5 @@
-set rtp+=~/gocode/src/github.com/golang/lint/misc/vim
+" something to do with linting
+" set rtp+=~/gocode/src/github.com/golang/lint/misc/vim
 
 " for markdown-composer plugin
 function! BuildComposer(info)
@@ -15,14 +16,11 @@ call plug#begin('~/.config/nvim/plugged')
 " Theme
 Plug 'joshdick/onedark.vim'
 " high contrast colorscheme
-Plug 'agude/vim-eldar'
+" Plug 'agude/vim-eldar'
 " regular colorscheme
 Plug 'itchyny/lightline.vim'
 " tabs for buffers
 Plug 'ap/vim-buftabline'
-" Autocompletion
-Plug 'Shougo/deoplete.nvim'
-Plug 'zchee/deoplete-go', { 'do': 'make'}
 " Linting
 Plug 'w0rp/ale'
 " Other stuff
@@ -34,12 +32,18 @@ Plug 'euclio/vim-markdown-composer', { 'do': function('BuildComposer') }
 Plug 'jiangmiao/auto-pairs' " Helps with { } stuff
 Plug 'nathanaelkane/vim-indent-guides' " Indent lines
 Plug 'easymotion/vim-easymotion' " Makes motion commands better 
+" Autocompletion
+Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
+Plug 'zchee/deoplete-go', { 'do': ':UpdateRemotePlugins' }
 " Language specific
-Plug 'fatih/vim-go', { 'do': ':GoInstallBinaries' }
-Plug 'sheerun/vim-polyglot'
+Plug 'fatih/vim-go', { 'do': ':InstallRemoteBinaries' }
+" Plug 'sheerun/vim-polyglot'
 Plug 'hashivim/vim-terraform'
 " Plug 'pangloss/vim-javascript'
 " Plug 'posva/vim-vue'
+" Note taking
+Plug 'xolox/vim-notes'
+Plug 'xolox/vim-misc' " required for vim-notes
 call plug#end()
 
 " Map the leader key to SPACE
@@ -99,6 +103,13 @@ set ignorecase
 " Show type info after 400s (default 800 ms)
 set updatetime=250
 
+" neocomplete like
+" set completeopt+=noinsert
+" deoplete.nvim recommend
+" set completeopt+=noselect
+" don't open the preview window
+set completeopt-=preview
+
 " Path to python interpreter for neovim
 let g:python3_host_prog = '/usr/local/bin/python3'
 " Skip the check of neovim module
@@ -107,8 +118,6 @@ let g:python3_host_skip_check = 1
 " Enable deoplete 
 let g:deoplete#enable_at_startup = 1
 let g:deoplete#sources#go#gocode_binary = '/Users/zjohnson/gocode/bin/gocode'
-" don't open the preview window
-set completeopt-=preview
 
 " fzf 
 nmap ; :Buffers<CR>
@@ -130,6 +139,8 @@ noremap <leader>m :NERDTreeToggle<CR>
 noremap <leader>cl :close<CR>
 " Vertical split
 noremap <leader>vs :vsp<CR><C-W><C-h>
+" Horizontal split
+noremap <leader>hs :split<CR>
 " Only 
 noremap <leader>o :only<CR>
 " list buffer files
@@ -153,7 +164,9 @@ nmap s <Plug>(easymotion-overwin-f)
 " next and previous buffer
 noremap <Tab> :bnext<CR>
 noremap <S-Tab> :bprevious<CR>
-" <Ctrl-opt-l> redraws the screen and removes any search highlighting.
+" Switch windows
+nnoremap <leader><Tab> <C-W><C-W>
+" Redraws the screen and removes any search highlighting.
 nnoremap <leader>ch :nohl<CR>
 " Close bottom window (quickfix window usually)
 nnoremap <leader>cq <C-w><C-j>:close<CR>
@@ -167,22 +180,21 @@ au FileType go noremap <leader>gn :GoRename<CR>
 au FileType go noremap <leader>gef :GoReferrers<CR>
 au FileType go noremap <leader>gt :GoTest<CR>
 au FileType go noremap <leader>gl :GoLint<CR>
+au FileType go noremap <leader>gi :GoInfo<CR>
 
-let g:go_highlight_build_constraints = 1
-let g:go_highlight_extra_types = 1
-let g:go_highlight_fields = 1
-let g:go_highlight_functions = 1
-let g:go_highlight_methods = 1
-let g:go_highlight_operators = 1
-let g:go_highlight_structs = 1
-let g:go_highlight_types = 1
+" let g:go_highlight_build_constraints = 1
+" let g:go_highlight_extra_types = 1
+" let g:go_highlight_fields = 1
+" let g:go_highlight_functions = 1
+" let g:go_highlight_methods = 1
+" let g:go_highlight_operators = 1
+" let g:go_highlight_structs = 1
+" let g:go_highlight_types = 1
 let g:go_fmt_command = "goimports"
 " these might be causing issues with ale
 " let g:go_metalinter_enabled = ['vet', 'golint', 'errcheck']
 " let g:go_metalinter_autosave = 1
 " let g:go_metalinter_deadline = "5s"
-" shows type information
-let g:go_auto_type_info = 1
 let g:go_addtags_transform = "snakecase"
 
 " Close NerDTREE and quit if it is the last thing open when :q
@@ -197,7 +209,7 @@ let g:ale_fixers = {
 \   'javascript': ['eslint']
 \}
 
-let g:ale_linters = { 'go': ['go build', 'golint', 'gofmt', 'go vet'] }
+let g:ale_linters = { 'go': ['go build', 'golint', 'gofmt', 'go vet', 'go'] }
 
 " Error and warning signs.
 let g:ale_sign_error = '⍭'"
@@ -231,6 +243,9 @@ hi link BufTabLineActive TablineSel
 "   autocmd BufWinLeave *.* mkview
 "   autocmd BufWinEnter *.* silent! loadview
 " augroup END
+
+" Notes
+let g:notes_directories = ['~/Documents/notes']
 
 function! CopyMatches(reg)
   let hits = []

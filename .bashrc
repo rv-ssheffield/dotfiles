@@ -63,9 +63,9 @@ LIGHT_GREEN="\[\033[1;32m\]"
 function gitprompt () {
 	local gitbranch=$(git branch 2>&1 | grep '\*' | sed -e 's/\* //g')
 	if [[ "$gitbranch" != "" ]]; then
-      PS1="${RED}« aws » ${GREEN}\w -${BLUE} ${gitbranch} ${GREEN}➔ ${LIGHT_GRAY}"
+      PS1="\n${RED}« aws » ${GREEN}\w -${BLUE} ${gitbranch} ${GREEN}\n➔ ${LIGHT_GRAY}"
     else
-      PS1="${RED}« aws » ${GREEN}\w${BLUE} ${GREEN}➔ ${LIGHT_GRAY}"
+      PS1="\n${RED}« aws » ${GREEN}\w${BLUE} ${GREEN}\n➔ ${LIGHT_GRAY}"
     fi
 }
 PROMPT_COMMAND=gitprompt
@@ -100,13 +100,17 @@ export GOROOT=/usr/local/go
 
 export NVIMPATH=~/.config/nvim
 alias c='clear'
-alias d='docker'
-alias dc='docker-compose'
-alias dm='docker-machine'
 alias h='cd ~'
 alias onvim='nvim ~/.config/nvim/init.vim'
 alias otmux='nvim ~/.tmux.conf'
 alias nn='cd ~/.config/nvim'
+
+# docker
+alias d='docker'
+alias dc='docker-compose'
+alias dm='docker-machine'
+# remove untagged images
+alias dremove='docker rmi $(docker images | grep "^<none>" | awk "{print $3}")'
 
 # to make tests work in ir-apex project
 export PIPELINE_AS_TENANT_ID="AS-TENANT" 
@@ -125,5 +129,5 @@ export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
 export FZF_ALT_C_COMMAND="$FZF_DEFAULT_COMMAND"
 export FZF_DEFAULT_OPTS=''
 
-export PATH='/Users/zjohnson/.nvm/versions/node/v6.10.2/bin:/usr/local/bin:/usr/bin:/usr/sbin:/bin:/sbin:/usr/local/opt/fzf/bin:/Users/zjohnson/.cargo/bin:/usr/share/www/devops/scripts:/Library/Frameworks/Python.framework/Versions/3.6/bin:/usr/share/www/intranet.directstartv.com/scripts/srcsync-dir'
+export PATH='/Users/zjohnson/.nvm/versions/node/v6.10.2/bin:/usr/local/go/bin:/Users/zjohnson/gocode/bin:/usr/local/bin:/usr/bin:/usr/sbin:/bin:/sbin:/usr/local/opt/fzf/bin:/Users/zjohnson/.cargo/bin:/usr/share/www/devops/scripts:/Library/Frameworks/Python.framework/Versions/3.6/bin:/usr/share/www/intranet.directstartv.com/scripts/srcsync-dir'
 # Path backup: /Users/zjohnson/.nvm/versions/node/v6.10.2/bin:/usr/share/www/intranet.directstartv.com/scripts/srcsync-dir:/usr/local/bin:/usr/share/www/devops/scripts:/Users/zjohnson/.cargo/bin:/Library/Frameworks/Python.framework/Versions/3.6/bin:/usr/share/www/intranet.directstartv.com/scripts/srcsync-dir:/usr/local/bin:/usr/share/www/devops/scripts:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/go/bin:~/gocode/bin:/usr/local/opt/fzf/bin

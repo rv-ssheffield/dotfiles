@@ -6,9 +6,9 @@ fi
 function gitprompt () {
 	local gitbranch=$(git branch 2>&1 | grep '\*' | sed -e 's/\* //g')
 	if [[ "$gitbranch" != "" ]]; then
-      PS1="${GREEN}\w -${BLUE} ${gitbranch} ${GREEN}➔ ${LIGHT_GRAY}"
+      PS1="\n${GREEN}\w -${BLUE} ${gitbranch} ${GREEN}\n➔ ${LIGHT_GRAY}"
     else
-      PS1="${GREEN}\w${BLUE} ${GREEN}➔ ${LIGHT_GRAY}"
+      PS1="\n${GREEN}\w${BLUE} ${GREEN}\n➔ ${LIGHT_GRAY}"
     fi
 }
 PROMPT_COMMAND=gitprompt
