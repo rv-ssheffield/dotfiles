@@ -129,5 +129,16 @@ export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
 export FZF_ALT_C_COMMAND="$FZF_DEFAULT_COMMAND"
 export FZF_DEFAULT_OPTS=''
 
-export PATH='/Users/zjohnson/.nvm/versions/node/v6.10.2/bin:/usr/local/go/bin:/Users/zjohnson/gocode/bin:/usr/local/bin:/usr/bin:/usr/sbin:/bin:/sbin:/usr/local/opt/fzf/bin:/Users/zjohnson/.cargo/bin:/usr/share/www/devops/scripts:/Library/Frameworks/Python.framework/Versions/3.6/bin:/usr/share/www/intranet.directstartv.com/scripts/srcsync-dir'
+# apex autocomplete
+_apex()  {
+  COMPREPLY=()
+  local cur="${COMP_WORDS[COMP_CWORD]}"
+  local opts="$(apex autocomplete -- ${COMP_WORDS[@]:1})"
+  COMPREPLY=( $(compgen -W "${opts}" -- ${cur}) )
+  return 0
+}
+
+complete -F _apex apex
+
+export PATH='/Users/zjohnson/.nvm/versions/node/v6.10.2/bin:/Users/zjohnson/gocode/bin:/usr/local/go/bin:/usr/local/bin:/usr/bin:/usr/sbin:/bin:/sbin:/usr/local/opt/fzf/bin:/Users/zjohnson/.cargo/bin:/usr/share/www/devops/scripts:/Library/Frameworks/Python.framework/Versions/3.6/bin:/usr/share/www/intranet.directstartv.com/scripts/srcsync-dir'
 # Path backup: /Users/zjohnson/.nvm/versions/node/v6.10.2/bin:/usr/share/www/intranet.directstartv.com/scripts/srcsync-dir:/usr/local/bin:/usr/share/www/devops/scripts:/Users/zjohnson/.cargo/bin:/Library/Frameworks/Python.framework/Versions/3.6/bin:/usr/share/www/intranet.directstartv.com/scripts/srcsync-dir:/usr/local/bin:/usr/share/www/devops/scripts:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/go/bin:~/gocode/bin:/usr/local/opt/fzf/bin

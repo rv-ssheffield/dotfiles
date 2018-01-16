@@ -1,6 +1,3 @@
-" something to do with linting
-" set rtp+=~/gocode/src/github.com/golang/lint/misc/vim
-
 " for markdown-composer plugin
 function! BuildComposer(info)
   if a:info.status != 'unchanged' || a:info.force
@@ -25,18 +22,15 @@ Plug 'ap/vim-buftabline'
 Plug 'w0rp/ale'
 " Other stuff
 Plug 'scrooloose/nerdtree' " File explorer 
-" Plug 'tpope/vim-fugitive' " Git wrapper
+Plug 'tpope/vim-fugitive' " Git wrapper
 Plug 'airblade/vim-gitgutter' " Git diffs in gutter
 Plug '/usr/local/opt/fzf' | Plug 'junegunn/fzf.vim'
 Plug 'euclio/vim-markdown-composer', { 'do': function('BuildComposer') }
 Plug 'jiangmiao/auto-pairs' " Helps with { } stuff
 Plug 'nathanaelkane/vim-indent-guides' " Indent lines
 Plug 'easymotion/vim-easymotion' " Makes motion commands better 
-" Autocompletion
-Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
-Plug 'zchee/deoplete-go', { 'do': ':UpdateRemotePlugins' }
 " Language specific
-Plug 'fatih/vim-go', { 'do': ':InstallRemoteBinaries' }
+Plug 'fatih/vim-go', { 'do': ':GoInstallBinaries' }
 " Plug 'sheerun/vim-polyglot'
 Plug 'hashivim/vim-terraform'
 " Plug 'pangloss/vim-javascript'
@@ -44,6 +38,9 @@ Plug 'hashivim/vim-terraform'
 " Note taking
 Plug 'xolox/vim-notes'
 Plug 'xolox/vim-misc' " required for vim-notes
+" Autocompletion
+Plug 'Shougo/deoplete.nvim',
+Plug 'zchee/deoplete-go', { 'do': 'make' }
 call plug#end()
 
 " Map the leader key to SPACE
@@ -69,6 +66,8 @@ syntax on
 colorscheme onedark
 " high contrast colorscheme
 " colorscheme eldar 
+
+" setlocal omnifunc=go#complete#Complete
 
 " hides regular status bar
 set noshowmode
@@ -173,6 +172,9 @@ nnoremap <leader>cq <C-w><C-j>:close<CR>
 
 inoremap jk <ESC>
 
+" Insert mode code completion
+inoremap <C-b> <C-x><C-o>
+
 " Go shortcuts
 au FileType go noremap <leader>gb :GoBuild<CR>
 au FileType go noremap <leader>gr :GoRun<CR>
@@ -182,20 +184,20 @@ au FileType go noremap <leader>gt :GoTest<CR>
 au FileType go noremap <leader>gl :GoLint<CR>
 au FileType go noremap <leader>gi :GoInfo<CR>
 
-" let g:go_highlight_build_constraints = 1
-" let g:go_highlight_extra_types = 1
-" let g:go_highlight_fields = 1
-" let g:go_highlight_functions = 1
-" let g:go_highlight_methods = 1
-" let g:go_highlight_operators = 1
-" let g:go_highlight_structs = 1
-" let g:go_highlight_types = 1
+let g:go_highlight_build_constraints = 1
+let g:go_highlight_extra_types = 1
+let g:go_highlight_fields = 1
+let g:go_highlight_functions = 1
+let g:go_highlight_methods = 1
+let g:go_highlight_operators = 1
+let g:go_highlight_structs = 1
+let g:go_highlight_types = 1
 let g:go_fmt_command = "goimports"
 " these might be causing issues with ale
 " let g:go_metalinter_enabled = ['vet', 'golint', 'errcheck']
 " let g:go_metalinter_autosave = 1
 " let g:go_metalinter_deadline = "5s"
-let g:go_addtags_transform = "snakecase"
+let g:go_addtags_transform = "camelcase"
 
 " Close NerDTREE and quit if it is the last thing open when :q
 autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isTabTree()) | q | endif
