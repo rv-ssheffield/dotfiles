@@ -259,3 +259,12 @@ function! CopyMatches(reg)
   execute 'let @'.reg.' = join(hits, "\n") . "\n"'
 endfunction
 command! -register CopyMatches call CopyMatches(<q-reg>)
+
+" Converts Fuse routing group results down to CSV format with routingGroupId
+" and routingGroupName
+function! CleanFuse()
+  :v/\(.*"name".*\|.*routingGroupId.*\)/d
+  :%s/.*"routingGroupId": \(.*\),\n.*"name": "\(.*\)",/\1, \2/g
+  :g/[0-9]\{1,5\}, [0-9]\{0,5\}-[0-9]\{6,7\}.*/d
+  :g/[0-9]\{1,5\}, companyID=[0-9]\{0,7\}.*/d
+endfunction
