@@ -11,13 +11,13 @@ endfunction
 
 call plug#begin('~/.config/nvim/plugged')
 " Theme
-Plug 'joshdick/onedark.vim'
-" high contrast colorscheme
-" Plug 'agude/vim-eldar'
 " regular colorscheme
+" Plug 'joshdick/onedark.vim'
+" high contrast colorscheme
+Plug 'agude/vim-eldar'
 Plug 'itchyny/lightline.vim'
 " tabs for buffers
-Plug 'ap/vim-buftabline'
+" Plug 'ap/vim-buftabline'
 " Linting
 Plug 'w0rp/ale'
 " Other stuff
@@ -33,21 +33,24 @@ Plug 'easymotion/vim-easymotion' " Makes motion commands better
 Plug 'fatih/vim-go', { 'do': ':GoInstallBinaries' }
 " Plug 'sheerun/vim-polyglot'
 Plug 'hashivim/vim-terraform'
-" Plug 'pangloss/vim-javascript'
-" Plug 'posva/vim-vue'
+Plug 'pangloss/vim-javascript'
+Plug 'posva/vim-vue'
 " Note taking
 Plug 'xolox/vim-notes'
 Plug 'xolox/vim-misc' " required for vim-notes
 " Autocompletion
 Plug 'Shougo/deoplete.nvim',
 Plug 'zchee/deoplete-go', { 'do': 'make' }
+Plug 'Shougo/neosnippet.vim' " Snippets
+Plug 'Shougo/neosnippet-snippets'
+Plug 'fenetikm/falcon'
 call plug#end()
 
 " Map the leader key to SPACE
 let mapleader="\<SPACE>"
 
+let g:falcon_lightline = 1
 let g:lightline = {
-   \ 'colorscheme': 'onedark',
    \ 'active': {
    \   'left': [ [ 'mode', 'paste' ],
    \             [ 'gitbranch', 'readonly', 'filename', 'modified' ] ],
@@ -63,9 +66,12 @@ let g:lightline = {
    \ }
 let g:lightline.separator = { 'left': '', 'right': '' }
 syntax on
-colorscheme onedark
+colorscheme falcon
+" colorscheme onedark
 " high contrast colorscheme
 " colorscheme eldar 
+
+highlight Comment cterm=italic
 
 " setlocal omnifunc=go#complete#Complete
 
@@ -103,9 +109,9 @@ set ignorecase
 set updatetime=250
 
 " neocomplete like
-" set completeopt+=noinsert
+set completeopt+=noinsert
 " deoplete.nvim recommend
-" set completeopt+=noselect
+set completeopt+=noselect
 " don't open the preview window
 set completeopt-=preview
 
@@ -116,7 +122,8 @@ let g:python3_host_skip_check = 1
 
 " Enable deoplete 
 let g:deoplete#enable_at_startup = 1
-let g:deoplete#sources#go#gocode_binary = '/Users/zjohnson/gocode/bin/gocode'
+let g:deoplete#sources#go#gocode_binary = $GOPATH.'/bin/gocode'
+let g:deoplete#sources#go#sort_class = ['package', 'func', 'type', 'var', 'const']
 
 " fzf 
 nmap ; :Buffers<CR>
@@ -150,12 +157,21 @@ noremap <leader>yc "*y
 noremap <leader>yp <ESC>gg<bar><S-v><bar>G<bar>"*y
 " close a buffer and keep split window open
 noremap <leader>cb :b#<bar>bd#<bar>bn<bar>b#<CR>
+" close buffer
+nnoremap + :bd <CR>
 " Play macro from q
 noremap <leader>q @q
 " syntax json
 noremap <leader>json :set syntax=json<CR>:%!python -m json.tool<CR>
 " syntax xml
 noremap <leader>xml :set syntax=xml<CR>:%!xmllint --format -<CR>
+" syntax html
+noremap <leader>html :call FormatHTML()<CR>
+" jump to the end of yank or paste
+noremap <leader>' ']
+" jump to next / previous error
+nnoremap <leader>ln :lnext<CR>
+nnoremap <leader>lp :lprev<CR>
 
 " search for a character
 nmap s <Plug>(easymotion-overwin-f)
@@ -173,11 +189,11 @@ nnoremap <leader>cq <C-w><C-j>:close<CR>
 inoremap jk <ESC>
 
 " Insert mode code completion
-inoremap <C-b> <C-x><C-o>
+" inoremap <C-b> <C-x><C-o>
 
 " Go shortcuts
 au FileType go noremap <leader>gb :GoBuild<CR>
-au FileType go noremap <leader>gr :GoRun<CR>
+au FileType go noremap <leader>gr :only<CR> :GoRun<CR>
 au FileType go noremap <leader>gn :GoRename<CR>
 au FileType go noremap <leader>gef :GoReferrers<CR>
 au FileType go noremap <leader>gt :GoTest<CR>
@@ -196,11 +212,13 @@ let g:go_highlight_types = 1
 let g:go_highlight_variable_declarations = 1
 let g:go_highlight_variable_assignments = 1
 let g:go_fmt_command = "goimports"
+let g:go_gocode_autobuild = 0 "disable vim-go autocompletion
 " these might be causing issues with ale
 " let g:go_metalinter_enabled = ['vet', 'golint', 'errcheck']
 " let g:go_metalinter_autosave = 1
 " let g:go_metalinter_deadline = "5s"
-let g:go_addtags_transform = "camelcase"
+" let g:go_addtags_transform = "camelcase"
+let g:go_addtags_transform = "snakecase"
 
 " Close NerDTREE and quit if it is the last thing open when :q
 autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isTabTree()) | q | endif
@@ -249,8 +267,13 @@ hi link BufTabLineActive TablineSel
 "   autocmd BufWinEnter *.* silent! loadview
 " augroup END
 
+" Snippets
+imap <C-e> <Plug>(neosnippet_expand_or_jump)
+smap <C-e> <Plug>(neosnippet_expand_or_jump)
+xmap <C-e> <Plug>(neosnippet_expand_target)
+
 " Notes
-let g:notes_directories = ['~/Documents/notes']
+let g:notes_directories = ['~/OneDrive\ -\ Red\ Ventures/notes']
 
 function! CopyMatches(reg)
   let hits = []
@@ -267,4 +290,11 @@ function! CleanFuse()
   :%s/.*"routingGroupId": \(.*\),\n.*"name": "\(.*\)",/\1, \2/g
   :g/[0-9]\{1,5\}, [0-9]\{0,5\}-[0-9]\{6,7\}.*/d
   :g/[0-9]\{1,5\}, companyID=[0-9]\{0,7\}.*/d
+endfunction
+
+function! FormatHTML()
+  :normal ggVGgJ 
+  :%s/>\s*</>\r</g
+  :set ft=html
+  :normal ggVG=
 endfunction

@@ -13,6 +13,9 @@ export HISTCONTROL=erasedups
 # History: 10,000 entries
 export HISTSIZE=10000
 
+# Enable italics
+export TERM=xterm-256color-italic
+
 alias repo_sync='php /usr/share/www/intranet.directstartv.com/scripts/srcsync-dir/repo_sync.php'
 
 # general shortcuts
@@ -28,7 +31,8 @@ alias la='ls -a'
 
 # editing shortcuts
 alias m='mate'
-alias v='vim'
+alias v='vi'
+alias vim='vi'
 alias n='nvim'
 alias sublime='open -a "/Applications/Sublime Text.app"'
 
@@ -37,9 +41,7 @@ alias gs='git status'
 alias gl='git pull'
 alias gp='git push'
 alias gd='git diff'
-alias gdh='git diff HEAD'
-alias gc='git commit -v'
-alias gca='git commit -v -a'
+alias gc='git checkout'
 alias gb='git branch'
 alias gba='git branch -a'
 
@@ -101,6 +103,11 @@ export GOROOT=/usr/local/go
 export NVIMPATH=~/.config/nvim
 alias c='clear'
 alias h='cd ~'
+alias cd1='cd ..'
+alias cd2='cd ../..'
+alias cd3='cd ../../..'
+alias cd4='cd ../../../../..'
+alias cd5='cd ../../../../../..'
 alias onvim='nvim ~/.config/nvim/init.vim'
 alias otmux='nvim ~/.tmux.conf'
 alias nn='cd ~/.config/nvim'
@@ -137,6 +144,9 @@ _apex()  {
   COMPREPLY=( $(compgen -W "${opts}" -- ${cur}) )
   return 0
 }
+
+# apex deploys for ir
+alias ad="apex deploy -E secrets.json"
 
 complete -F _apex apex
 
