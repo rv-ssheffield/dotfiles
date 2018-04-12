@@ -12,12 +12,10 @@ endfunction
 call plug#begin('~/.config/nvim/plugged')
 " Theme
 " regular colorscheme
-" Plug 'joshdick/onedark.vim'
+Plug 'fenetikm/falcon'
 " high contrast colorscheme
 Plug 'agude/vim-eldar'
 Plug 'itchyny/lightline.vim'
-" tabs for buffers
-" Plug 'ap/vim-buftabline'
 " Linting
 Plug 'w0rp/ale'
 " Other stuff
@@ -43,7 +41,6 @@ Plug 'Shougo/deoplete.nvim',
 Plug 'zchee/deoplete-go', { 'do': 'make' }
 Plug 'Shougo/neosnippet.vim' " Snippets
 Plug 'Shougo/neosnippet-snippets'
-Plug 'fenetikm/falcon'
 call plug#end()
 
 " Map the leader key to SPACE
@@ -67,35 +64,37 @@ let g:lightline = {
 let g:lightline.separator = { 'left': '', 'right': '' }
 syntax on
 colorscheme falcon
-" colorscheme onedark
 " high contrast colorscheme
 " colorscheme eldar 
 
+" Enables italics
 highlight Comment cterm=italic
 
-" setlocal omnifunc=go#complete#Complete
-
-" hides regular status bar
+" Hides regular status bar
 set noshowmode
 set noruler
 set noshowcmd
 
+" Autosave
 set autowrite
 
 " Shows line numbers
 set number
 set relativenumber
+
 " Use 24-bit (true-color) mode in Vim/Neovim 
 set termguicolors
+
 " Makes stuff open to the right and below
 set splitright
 set splitbelow
 
-" Tab settings - tabs converted to 2 spaces
+" Tab settings - tabs converted to 4 spaces
 set expandtab
-set shiftwidth=2
-set softtabstop=2
-set tabstop=2
+set shiftwidth=4
+set softtabstop=4
+set tabstop=4
+
 " Go tab settings
 au FileType go set shiftwidth=4
 au FileType go set softtabstop=4
@@ -105,7 +104,7 @@ au FileType go set tabstop=4
 set smartcase
 set ignorecase
 
-" Show type info after 400s (default 800 ms)
+" Show type info after 250ms (default 800 ms)
 set updatetime=250
 
 " neocomplete like
@@ -132,6 +131,9 @@ nmap <leader>fl :BLines<CR>
 nmap <leader>fal :Lines<CR>
 
 let NERDTreeWinPos='right'
+"
+" Close NerDTREE and quit if it is the last thing open when :q
+autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isTabTree()) | q | endif
 
 " leader shortcuts
 " Source config
@@ -149,8 +151,6 @@ noremap <leader>vs :vsp<CR><C-W><C-h>
 noremap <leader>hs :split<CR>
 " Only 
 noremap <leader>o :only<CR>
-" list buffer files
-noremap <silent> <leader>l :ls<CR>
 " Yank to clipboard
 noremap <leader>yc "*y
 " Yank a page
@@ -172,6 +172,8 @@ noremap <leader>' ']
 " jump to next / previous error
 nnoremap <leader>ln :lnext<CR>
 nnoremap <leader>lp :lprev<CR>
+" Wrap a WORD with the previous values e.g. quotes
+inoremap <leader>r <ESC>lldWP
 
 " search for a character
 nmap s <Plug>(easymotion-overwin-f)
@@ -187,9 +189,6 @@ nnoremap <leader>ch :nohl<CR>
 nnoremap <leader>cq <C-w><C-j>:close<CR>
 
 inoremap jk <ESC>
-
-" Insert mode code completion
-" inoremap <C-b> <C-x><C-o>
 
 " Go shortcuts
 au FileType go noremap <leader>gb :GoBuild<CR>
@@ -217,11 +216,7 @@ let g:go_gocode_autobuild = 0 "disable vim-go autocompletion
 " let g:go_metalinter_enabled = ['vet', 'golint', 'errcheck']
 " let g:go_metalinter_autosave = 1
 " let g:go_metalinter_deadline = "5s"
-" let g:go_addtags_transform = "camelcase"
 let g:go_addtags_transform = "snakecase"
-
-" Close NerDTREE and quit if it is the last thing open when :q
-autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isTabTree()) | q | endif
 
 " indentation
 let g:indent_guides_enable_on_vim_startup = 1
@@ -242,23 +237,6 @@ let g:ale_fix_on_save = 1
 
 let g:ale_lint_on_text_changed = 'normal'
 let g:ale_sign_column_always = 1
-
-" buftabline settings
-let g:buftabline_numbers = 2
-let g:buftabline_indicators = 1 
-let g:buftabline_separators = 1
-nmap <leader>1 <Plug>BufTabLine.Go(1)
-nmap <leader>2 <Plug>BufTabLine.Go(2)
-nmap <leader>3 <Plug>BufTabLine.Go(3)
-nmap <leader>4 <Plug>BufTabLine.Go(4)
-nmap <leader>5 <Plug>BufTabLine.Go(5)
-nmap <leader>6 <Plug>BufTabLine.Go(6)
-nmap <leader>7 <Plug>BufTabLine.Go(7)
-nmap <leader>8 <Plug>BufTabLine.Go(8)
-nmap <leader>9 <Plug>BufTabLine.Go(9)
-nmap <leader>0 <Plug>BufTabLine.Go(10)
-hi link BufTabLineCurrent PmenuSel
-hi link BufTabLineActive TablineSel
 
 " Save folding
 " augroup remember_folds
