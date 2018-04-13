@@ -111,6 +111,7 @@ alias cd5='cd ../../../../../..'
 alias onvim='nvim ~/.config/nvim/init.vim'
 alias otmux='nvim ~/.tmux.conf'
 alias nn='cd ~/.config/nvim'
+alias ns='n -S Session.vim'
 
 # docker
 alias d='docker'

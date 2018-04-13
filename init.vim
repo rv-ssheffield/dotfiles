@@ -40,7 +40,6 @@ Plug 'xolox/vim-misc' " required for vim-notes
 Plug 'Shougo/deoplete.nvim',
 Plug 'zchee/deoplete-go', { 'do': 'make' }
 Plug 'Shougo/neosnippet.vim' " Snippets
-Plug 'Shougo/neosnippet-snippets'
 call plug#end()
 
 " Map the leader key to SPACE
@@ -212,7 +211,7 @@ let g:go_highlight_variable_declarations = 1
 let g:go_highlight_variable_assignments = 1
 let g:go_fmt_command = "goimports"
 let g:go_gocode_autobuild = 0 "disable vim-go autocompletion
-" these might be causing issues with ale
+" these might be causing issues with ale 
 " let g:go_metalinter_enabled = ['vet', 'golint', 'errcheck']
 " let g:go_metalinter_autosave = 1
 " let g:go_metalinter_deadline = "5s"
@@ -246,9 +245,15 @@ let g:ale_sign_column_always = 1
 " augroup END
 
 " Snippets
+let g:neosnippet#snippets_directory='~/dotfiles/vimsnippets'	
 imap <C-e> <Plug>(neosnippet_expand_or_jump)
 smap <C-e> <Plug>(neosnippet_expand_or_jump)
 xmap <C-e> <Plug>(neosnippet_expand_target)
+
+" disable the neosnippet defaults - vim-go has it's own snippets
+let g:neosnippet#disable_runtime_snippets = {
+\   '_' : 1,
+\ }
 
 " Notes
 let g:notes_directories = ['~/OneDrive\ -\ Red\ Ventures/notes']
