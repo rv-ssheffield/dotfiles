@@ -1,14 +1,3 @@
-" for markdown-composer plugin
-function! BuildComposer(info)
-  if a:info.status != 'unchanged' || a:info.force
-    if has('nvim')
-      !cargo build --release
-    else
-      !cargo build --release --no-default-features --features json-rpc
-    endif
-  endif
-endfunction
-
 call plug#begin('~/.config/nvim/plugged')
 " Theme
 " regular colorscheme
@@ -23,7 +12,7 @@ Plug 'scrooloose/nerdtree' " File explorer
 Plug 'tpope/vim-fugitive' " Git wrapper
 Plug 'airblade/vim-gitgutter' " Git diffs in gutter
 Plug '/usr/local/opt/fzf' | Plug 'junegunn/fzf.vim'
-Plug 'euclio/vim-markdown-composer', { 'do': function('BuildComposer') }
+Plug 'shime/vim-livedown'
 Plug 'jiangmiao/auto-pairs' " Helps with { } stuff
 Plug 'nathanaelkane/vim-indent-guides' " Indent lines
 Plug 'easymotion/vim-easymotion' " Makes motion commands better 
@@ -47,6 +36,7 @@ let mapleader="\<SPACE>"
 
 let g:falcon_lightline = 1
 let g:lightline = {
+   \ 'colorscheme': 'falcon',
    \ 'active': {
    \   'left': [ [ 'mode', 'paste' ],
    \             [ 'gitbranch', 'readonly', 'filename', 'modified' ] ],
@@ -99,6 +89,9 @@ au FileType go set shiftwidth=4
 au FileType go set softtabstop=4
 au FileType go set tabstop=4
 
+" yml
+au FileType yml set shiftwidth=2
+
 " ignore case when search is lowercase
 set smartcase
 set ignorecase
@@ -128,6 +121,9 @@ nmap ; :Buffers<CR>
 nmap <leader>t :Files<CR>
 nmap <leader>fl :BLines<CR>
 nmap <leader>fal :Lines<CR>
+
+" Map - to ; since ; is used for quicker buffer list
+nnoremap - ;
 
 let NERDTreeWinPos='right'
 "
@@ -171,12 +167,10 @@ noremap <leader>' ']
 " jump to next / previous error
 nnoremap <leader>ln :lnext<CR>
 nnoremap <leader>lp :lprev<CR>
-" Wrap a WORD with the previous values e.g. quotes
-inoremap <leader>r <ESC>lldWP
-
+" Insert current date
+nnoremap <leader>dd :put =strftime('%Y-%m-%d')<CR>
 " search for a character
 nmap s <Plug>(easymotion-overwin-f)
-
 " next and previous buffer
 noremap <Tab> :bnext<CR>
 noremap <S-Tab> :bprevious<CR>
@@ -186,17 +180,22 @@ nnoremap <leader><Tab> <C-W><C-W>
 nnoremap <leader>ch :nohl<CR>
 " Close bottom window (quickfix window usually)
 nnoremap <leader>cq <C-w><C-j>:close<CR>
-
+" Escape mappings
 inoremap jk <ESC>
+inoremap jj <ESC>:w<CR>
+" SearchNotes
+nnoremap <leader>sn :SearchNotes 
 
 " Go shortcuts
 au FileType go noremap <leader>gb :GoBuild<CR>
 au FileType go noremap <leader>gr :only<CR> :GoRun<CR>
-au FileType go noremap <leader>gn :GoRename<CR>
+au FileType go noremap <leader>gn :GoRename<Space>
 au FileType go noremap <leader>gef :GoReferrers<CR>
 au FileType go noremap <leader>gt :GoTest<CR>
 au FileType go noremap <leader>gl :GoLint<CR>
 au FileType go noremap <leader>gi :GoInfo<CR>
+au FileType go noremap <leader>ga :GoAddTags<CR>
+au FileType go noremap <leader>gv :GoRemoveTags<CR>
 
 let g:go_highlight_build_constraints = 1
 let g:go_highlight_extra_types = 1
@@ -211,15 +210,8 @@ let g:go_highlight_variable_declarations = 1
 let g:go_highlight_variable_assignments = 1
 let g:go_fmt_command = "goimports"
 let g:go_gocode_autobuild = 0 "disable vim-go autocompletion
-" these might be causing issues with ale 
-" let g:go_metalinter_enabled = ['vet', 'golint', 'errcheck']
-" let g:go_metalinter_autosave = 1
-" let g:go_metalinter_deadline = "5s"
-let g:go_addtags_transform = "snakecase"
-
-" indentation
-let g:indent_guides_enable_on_vim_startup = 1
-let g:indent_guides_guide_size = 1
+" let g:go_addtags_transform = "snakecase"
+let g:go_addtags_transform = "camelcase"
 
 " :ALEFix will try and fix JS code with ESLint.
 let g:ale_fixers = {
@@ -236,13 +228,6 @@ let g:ale_fix_on_save = 1
 
 let g:ale_lint_on_text_changed = 'normal'
 let g:ale_sign_column_always = 1
-
-" Save folding
-" augroup remember_folds
-"   autocmd!
-"   autocmd BufWinLeave *.* mkview
-"   autocmd BufWinEnter *.* silent! loadview
-" augroup END
 
 " Snippets
 let g:neosnippet#snippets_directory='~/dotfiles/vimsnippets'	
@@ -265,15 +250,6 @@ function! CopyMatches(reg)
   execute 'let @'.reg.' = join(hits, "\n") . "\n"'
 endfunction
 command! -register CopyMatches call CopyMatches(<q-reg>)
-
-" Converts Fuse routing group results down to CSV format with routingGroupId
-" and routingGroupName
-function! CleanFuse()
-  :v/\(.*"name".*\|.*routingGroupId.*\)/d
-  :%s/.*"routingGroupId": \(.*\),\n.*"name": "\(.*\)",/\1, \2/g
-  :g/[0-9]\{1,5\}, [0-9]\{0,5\}-[0-9]\{6,7\}.*/d
-  :g/[0-9]\{1,5\}, companyID=[0-9]\{0,7\}.*/d
-endfunction
 
 function! FormatHTML()
   :normal ggVGgJ 

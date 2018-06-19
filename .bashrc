@@ -96,6 +96,7 @@ alias gostash='cd /Users/zjohnson/gocode/src/stash.redventures.net'
 alias gogit='cd /Users/zjohnson/gocode/src/github.com'
 alias gop='cd $GOPATH/src'
 alias goir='cd $GOPATH/src/stash.redventures.net/irw/ir-apex'
+alias goplay='cd $GOPATH/src/scratch; n main.go'
 
 export GOPATH=$HOME/gocode
 export GOROOT=/usr/local/go
@@ -112,17 +113,20 @@ alias onvim='nvim ~/.config/nvim/init.vim'
 alias otmux='nvim ~/.tmux.conf'
 alias nn='cd ~/.config/nvim'
 alias ns='n -S Session.vim'
+alias ndot='cd ~/dotfiles && n -S Session.vim'
+
+alias tf='terraform'
 
 # docker
 alias d='docker'
 alias dc='docker-compose'
 alias dm='docker-machine'
+eval $(dm env)
 # remove untagged images
 alias dremove='docker rmi $(docker images | grep "^<none>" | awk "{print $3}")'
 
-# to make tests work in ir-apex project
-export PIPELINE_AS_TENANT_ID="AS-TENANT" 
-export PIPELINE_TRANE_TENANT_ID="TRANE-TENANT"
+# Export a .env file
+alias expenv='export `cat .env | xargs`'
 
 export NVM_DIR="/Users/zjohnson/.nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"  # This loads nvm
@@ -146,8 +150,13 @@ _apex()  {
   return 0
 }
 
-# apex deploys for ir
-alias ad="apex deploy -E secrets.json"
+function title {
+    echo -ne "\033]0;"$*"\007"
+}
+
+function wdt {
+    echo -ne "\033]0;"${PWD##*/}"\007"
+}
 
 complete -F _apex apex
 

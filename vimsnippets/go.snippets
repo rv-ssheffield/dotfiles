@@ -1,0 +1,7 @@
+snippet logerr
+abbr lerr
+alias lerr
+    if err != nil {
+        log.WithError(err).Error("${1:failed to . . .}")
+    }
+    ${2}
