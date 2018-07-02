@@ -196,6 +196,8 @@ au FileType go noremap <leader>gl :GoLint<CR>
 au FileType go noremap <leader>gi :GoInfo<CR>
 au FileType go noremap <leader>ga :GoAddTags<CR>
 au FileType go noremap <leader>gv :GoRemoveTags<CR>
+" Add a split window and go the current definition
+au FileType go nnoremap <leader>vng :vsplit<CR> gd
 
 let g:go_highlight_build_constraints = 1
 let g:go_highlight_extra_types = 1
