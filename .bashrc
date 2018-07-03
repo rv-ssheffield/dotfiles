@@ -1,29 +1,25 @@
-source /usr/share/www/intranet.directstartv.com/scripts/srcsync-dir/helper.sh
 source /usr/local/etc/bash_completion.d/git-completion.bash
 export CLICOLOR=1  # same as 'alias ls=ls -G' which I also have set
 
 export LSCOLORS=gxfxcxdxbxegedabagacad
 
+# Need to do this so you use backspace in screen apparently
+# alias screen='TERM=screen screen'
+
+# display battery info on your Mac
+# see http://blog.justingreer.com/post/45839440/a-tale-of-two-batteries
+alias battery='ioreg -w0 -l | grep Capacity | cut -d " " -f 17-50'
+
 # Enable color in grep
-export GREP_OPTIONS='--color=auto'
-export GREP_COLOR='3;33'
-
-# History: don't store duplicates
-export HISTCONTROL=erasedups
-# History: 10,000 entries
-export HISTSIZE=10000
-
+# export GREP_OPTIONS='--color=auto'
+# export GREP_COLOR='3;33'
+ 
 # Enable italics
 export TERM=xterm-256color-italic
-
-alias repo_sync='php /usr/share/www/intranet.directstartv.com/scripts/srcsync-dir/repo_sync.php'
 
 # general shortcuts
 alias mv='mv -i'
 alias rm='rm -i'
-
-# Need to do this so you use backspace in screen apparently
-alias screen='TERM=screen screen'
 
 # listing files
 alias l='ls -al'
@@ -38,16 +34,13 @@ alias sublime='open -a "/Applications/Sublime Text.app"'
 
 alias g='git '
 alias gs='git status'
-alias gl='git pull'
-alias gp='git push'
+alias gp='git pull'
 alias gd='git diff'
 alias gc='git checkout'
 alias gb='git branch'
 alias gba='git branch -a'
-
-# display battery info on your Mac
-# see http://blog.justingreer.com/post/45839440/a-tale-of-two-batteries
-alias battery='ioreg -w0 -l | grep Capacity | cut -d " " -f 17-50'
+alias gcm='git checkout master'
+alias gcd='git checkout development'
 
 # COLOR STRINGS
         RED="\[\033[0;31m\]"
@@ -82,7 +75,6 @@ SSH_CONFIG_HOSTS=( $(cat ~/.ssh/config | grep "Host " | grep -v "*" | cut -f 2 -
 complete -o default -W "${SSH_KNOWN_HOSTS[*]} ${SSH_CONFIG_HOSTS[*]}" ssh
 
 WHOAMI=$(whoami)
-export PATH=/usr/share/www/intranet.directstartv.com/scripts/srcsync-dir:/usr/local/bin:/usr/share/www/devops/scripts:$PATH
 export NODE_PATH="/usr/local/bin/node:/usr/local/lib/node_modules:{$WHOAMI}/lib/node_modules"
 export NODE_ENV=development
 export NVIMPATH="~/.config/nvim"
@@ -141,6 +133,11 @@ export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
 export FZF_ALT_C_COMMAND="$FZF_DEFAULT_COMMAND"
 export FZF_DEFAULT_OPTS=''
 
+# History: don't store duplicates
+export HISTCONTROL=ignoreboth:erasedups
+# History: 10,000 entries
+export HISTSIZE=10000
+
 # apex autocomplete
 _apex()  {
   COMPREPLY=()
@@ -160,5 +157,5 @@ function wdt {
 
 complete -F _apex apex
 
-export PATH='/Users/zjohnson/.nvm/versions/node/v6.10.2/bin:/Users/zjohnson/gocode/bin:/usr/local/go/bin:/usr/local/bin:/usr/bin:/usr/sbin:/bin:/sbin:/usr/local/opt/fzf/bin:/Users/zjohnson/.cargo/bin:/usr/share/www/devops/scripts:/Library/Frameworks/Python.framework/Versions/3.6/bin:/usr/share/www/intranet.directstartv.com/scripts/srcsync-dir'
+export PATH='/Users/zjohnson/.nvm/versions/node/v8.11.3/bin:/Users/zjohnson/gocode/bin:/usr/local/go/bin:/usr/local/bin:/usr/bin:/usr/sbin:/bin:/sbin:/usr/local/opt/fzf/bin:/Users/zjohnson/.cargo/bin:/Library/Frameworks/Python.framework/Versions/3.6/bin'
 # Path backup: /Users/zjohnson/.nvm/versions/node/v6.10.2/bin:/usr/share/www/intranet.directstartv.com/scripts/srcsync-dir:/usr/local/bin:/usr/share/www/devops/scripts:/Users/zjohnson/.cargo/bin:/Library/Frameworks/Python.framework/Versions/3.6/bin:/usr/share/www/intranet.directstartv.com/scripts/srcsync-dir:/usr/local/bin:/usr/share/www/devops/scripts:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/go/bin:~/gocode/bin:/usr/local/opt/fzf/bin

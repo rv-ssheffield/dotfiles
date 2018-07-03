@@ -5,6 +5,7 @@ Plug 'fenetikm/falcon'
 " high contrast colorscheme
 Plug 'agude/vim-eldar'
 Plug 'itchyny/lightline.vim'
+Plug 'NLKNguyen/papercolor-theme'
 " Linting
 Plug 'w0rp/ale'
 " Other stuff
@@ -55,6 +56,9 @@ syntax on
 colorscheme falcon
 " high contrast colorscheme
 " colorscheme eldar 
+" Light colorscheme
+" set background=light
+" colorscheme PaperColor
 
 " Enables italics
 highlight Comment cterm=italic
@@ -63,6 +67,9 @@ highlight Comment cterm=italic
 set noshowmode
 set noruler
 set noshowcmd
+
+" Set default clipboard to system clipboard
+set clipboard=unnamed
 
 " Autosave
 set autowrite
@@ -146,8 +153,6 @@ noremap <leader>vs :vsp<CR><C-W><C-h>
 noremap <leader>hs :split<CR>
 " Only 
 noremap <leader>o :only<CR>
-" Yank to clipboard
-noremap <leader>yc "*y
 " Yank a page
 noremap <leader>yp <ESC>gg<bar><S-v><bar>G<bar>"*y
 " close a buffer and keep split window open
