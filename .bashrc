@@ -1,20 +1,9 @@
 source /usr/local/etc/bash_completion.d/git-completion.bash
-export CLICOLOR=1  # same as 'alias ls=ls -G' which I also have set
-
+# Color settings
+export CLICOLOR=1
 export LSCOLORS=gxfxcxdxbxegedabagacad
 
-# Need to do this so you use backspace in screen apparently
-# alias screen='TERM=screen screen'
-
-# display battery info on your Mac
-# see http://blog.justingreer.com/post/45839440/a-tale-of-two-batteries
-alias battery='ioreg -w0 -l | grep Capacity | cut -d " " -f 17-50'
-
-# Enable color in grep
-# export GREP_OPTIONS='--color=auto'
-# export GREP_COLOR='3;33'
- 
-# Enable italics
+# Enable italics - for nvim generally.
 export TERM=xterm-256color-italic
 
 # general shortcuts
@@ -26,7 +15,6 @@ alias l='ls -al'
 alias la='ls -a'
 
 # editing shortcuts
-alias m='mate'
 alias v='vi'
 alias vim='vi'
 alias n='nvim'
@@ -38,7 +26,6 @@ alias gp='git pull'
 alias gd='git diff'
 alias gc='git checkout'
 alias gb='git branch'
-alias gba='git branch -a'
 alias gcm='git checkout master'
 alias gcd='git checkout development'
 
@@ -54,7 +41,7 @@ LIGHT_GREEN="\[\033[1;32m\]"
  LIGHT_GRAY="\[\033[0;37m\]"
  COLOR_NONE="\[\e[0m\]"
 
-# only using interactive shell for aws cli right now, so prefix it with aws
+# Only using interactive shell for aws cli right now, so prefix it with aws.
 function gitprompt () {
 	local gitbranch=$(git branch 2>&1 | grep '\*' | sed -e 's/\* //g')
 	if [[ "$gitbranch" != "" ]]; then
@@ -77,7 +64,6 @@ complete -o default -W "${SSH_KNOWN_HOSTS[*]} ${SSH_CONFIG_HOSTS[*]}" ssh
 WHOAMI=$(whoami)
 export NODE_PATH="/usr/local/bin/node:/usr/local/lib/node_modules:{$WHOAMI}/lib/node_modules"
 export NODE_ENV=development
-export NVIMPATH="~/.config/nvim"
 
 if [ -f `brew --prefix`/etc/bash_completion ]; then
     . `brew --prefix`/etc/bash_completion
@@ -118,6 +104,8 @@ eval $(dm env)
 alias dremove='docker rmi $(docker images | grep "^<none>" | awk "{print $3}")'
 
 # Export a .env file
+# e.g.
+# ENVIRONMENTVAR=ENVIRONMENTVALUE
 alias expenv='export `cat .env | xargs`'
 
 export NVM_DIR="/Users/zjohnson/.nvm"
@@ -147,6 +135,7 @@ _apex()  {
   return 0
 }
 
+# Title setting for terminal tabs.
 function title {
     echo -ne "\033]0;"$*"\007"
 }
