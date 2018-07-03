@@ -158,4 +158,3 @@ function wdt {
 complete -F _apex apex
 
 export PATH='/Users/zjohnson/.nvm/versions/node/v8.11.3/bin:/Users/zjohnson/gocode/bin:/usr/local/go/bin:/usr/local/bin:/usr/bin:/usr/sbin:/bin:/sbin:/usr/local/opt/fzf/bin:/Users/zjohnson/.cargo/bin:/Library/Frameworks/Python.framework/Versions/3.6/bin'
-# Path backup: /Users/zjohnson/.nvm/versions/node/v6.10.2/bin:/usr/share/www/intranet.directstartv.com/scripts/srcsync-dir:/usr/local/bin:/usr/share/www/devops/scripts:/Users/zjohnson/.cargo/bin:/Library/Frameworks/Python.framework/Versions/3.6/bin:/usr/share/www/intranet.directstartv.com/scripts/srcsync-dir:/usr/local/bin:/usr/share/www/devops/scripts:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/go/bin:~/gocode/bin:/usr/local/opt/fzf/bin
