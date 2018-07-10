@@ -4,8 +4,9 @@ call plug#begin('~/.config/nvim/plugged')
 Plug 'fenetikm/falcon'
 " high contrast colorscheme
 Plug 'agude/vim-eldar'
-Plug 'itchyny/lightline.vim'
+" white colorscheme
 Plug 'NLKNguyen/papercolor-theme'
+Plug 'itchyny/lightline.vim'
 " Linting
 Plug 'w0rp/ale'
 " Other stuff
@@ -13,7 +14,7 @@ Plug 'scrooloose/nerdtree' " File explorer
 Plug 'tpope/vim-fugitive' " Git wrapper
 Plug 'airblade/vim-gitgutter' " Git diffs in gutter
 Plug '/usr/local/opt/fzf' | Plug 'junegunn/fzf.vim'
-Plug 'shime/vim-livedown'
+Plug 'shime/vim-livedown' " Markdown preview
 Plug 'jiangmiao/auto-pairs' " Helps with { } stuff
 Plug 'nathanaelkane/vim-indent-guides' " Indent lines
 Plug 'easymotion/vim-easymotion' " Makes motion commands better 
